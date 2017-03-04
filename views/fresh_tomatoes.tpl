@@ -106,15 +106,15 @@
         import re
         for movie in movies:
           # Extract the youtube ID from the url
-          trailer_url = movie.get('trailer_url') or ''
+          trailer_url = movie.trailer_url or ''
           youtube_id_match = re.search(
             r'(?<=v=)[^&#]+', trailer_url)
           youtube_id_match = youtube_id_match or re.search(
             r'(?<=be/)[^&#]+', trailer_url)
 
           # Set the template vars
-          movie_title = movie.get('movie_title') or 'Not Found'
-          poster_image_url = movie.get('poster_image_url') or ''
+          movie_title = movie.title or 'Not Found'
+          poster_image_url = movie.image_url or ''
           trailer_youtube_id = (youtube_id_match.group(0) if youtube_id_match
             else '')
       %>

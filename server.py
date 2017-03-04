@@ -11,7 +11,7 @@ def index():
     avatar = media.Movie(
         'Avatar',
         'Pocahontas on an alien planet',
-        'http://img.csfd.cz/files/images/user/profile/159/129/159129345_9e5fe4.jpg',
+        'https://theflyinyoursoup.files.wordpress.com/2016/08/avatar-1st.jpeg',
         'https://youtu.be/uZNHIU3uHT4')
     movies = [toy_story, avatar]
     return template('fresh_tomatoes', movies=movies)

@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,7 +7,7 @@
     <!-- Bootstrap 3 -->
     <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap-theme.min.css">
-    <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+    <script src="https://code.jquery.com/jquery-1.10.1.min.js"></script>
     <script src="https://netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
     <style type="text/css" media="screen">
         body {
@@ -61,7 +60,7 @@
         // Start playing the video whenever the trailer modal is opened
         $(document).on('click', '.movie-tile', function (event) {
             var trailerYouTubeId = $(this).attr('data-trailer-youtube-id')
-            var sourceUrl = 'http://www.youtube.com/embed/' + trailerYouTubeId + '?autoplay=1&html5=1';
+            var sourceUrl = 'https://www.youtube.com/embed/' + trailerYouTubeId + '?autoplay=1&html5=1';
             $("#trailer-video-container").empty().append($("<iframe></iframe>", {
               'id': 'trailer-video',
               'type': 'text-html',
@@ -103,17 +102,27 @@
       </div>
     </div>
     <div class="container">
-      
-<div class="col-md-6 col-lg-4 movie-tile text-center" data-trailer-youtube-id="vwyZH85NQC4" data-toggle="modal" data-target="#trailer">
-    <img src="http://www.gstatic.com/tv/thumb/movieposters/17420/p17420_p_v8_ab.jpg" width="220" height="342">
-    <h2>Toy Story</h2>
-</div>
+      <%
+        import re
+        for movie in movies:
+          # Extract the youtube ID from the url
+          trailer_url = movie.get('trailer_url') or ''
+          youtube_id_match = re.search(
+            r'(?<=v=)[^&#]+', trailer_url)
+          youtube_id_match = youtube_id_match or re.search(
+            r'(?<=be/)[^&#]+', trailer_url)
 
-<div class="col-md-6 col-lg-4 movie-tile text-center" data-trailer-youtube-id="uZNHIU3uHT4" data-toggle="modal" data-target="#trailer">
-    <img src="http://img.csfd.cz/files/images/user/profile/159/129/159129345_9e5fe4.jpg" width="220" height="342">
-    <h2>Avatar</h2>
-</div>
-
+          # Set the template vars
+          movie_title = movie.get('movie_title') or 'Not Found'
+          poster_image_url = movie.get('poster_image_url') or ''
+          trailer_youtube_id = (youtube_id_match.group(0) if youtube_id_match
+            else '')
+      %>
+      <div class="col-md-6 col-lg-4 movie-tile text-center" data-trailer-youtube-id="{{trailer_youtube_id}}" data-toggle="modal" data-target="#trailer">
+        <img src="{{poster_image_url}}" width="220" height="342">
+        <h2>{{movie_title}}</h2>
+      </div>
+      % end
     </div>
   </body>
 </html>
